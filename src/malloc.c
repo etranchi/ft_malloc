@@ -18,7 +18,7 @@
 
 // 	page.data = mmap(0, SIZE, PROT_READ| PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
 // 	if (page.data == MAP_FAILED) {
-// 		printf("failed to map\n");
+//
 // 		exit(0);
 // 	}
 // 	page.mallocs = NULL;
@@ -26,13 +26,17 @@
 // 	return &page;
 // }
 
-void show_alloc_mem() {
-	
-	t_block *tiny = ctn.tiny;
-	t_block *small = ctn.small;
-	t_block *large = ctn.large;
+void 		show_alloc_mem() 
+{
+	t_block *tiny;
+	t_block *small;
+	t_block *large ;
 	int total;
 
+	tiny = ctn.tiny;
+	small = ctn.small;
+	large = ctn.large;
+	total = 0;
 	printf("TINY : %p\n", &ctn.tiny);
 	while (tiny) {
 		printf("%p - %p : %d octets\n", tiny->ptr, (tiny->ptr + tiny->size ), tiny->size);
@@ -56,50 +60,46 @@ void show_alloc_mem() {
 }
 
 
-t_block *initBlock(int size) {
+t_block 	*initBlock(int size) 
+{
 	t_block *b;
+	int i;
 
+	i = 0;
+	while(++i < SIZE)
+		i++;
 	
-	b = (t_block *)mmap(0, SIZE, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
-	if (b == MAP_FAILED) {
-		printf("Error MAP\n");
+	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
+	if (b == MAP_FAILED)
 		exit(0);
-	}
-
  	b->ptr = b + sizeof(t_block);
  	b->size = size;
 	b->used = 1;
 	b->next = NULL;
-	return b;
+	return (b);
 }
 
-t_block *addBlock(t_block *ref, int size, int all_size) {
+t_block 	*addBlock(t_block *ref, int size, int all_size) 
+{
 	t_block *b;
 
-	printf("je suis la\n");
 	if (all_size + size + sizeof(t_block) < SIZE) { 
-		printf("j'ai de la place\n");
 		b = ref->ptr + ref->size;
-		printf("ref maillon\n");
 		b->ptr = b + sizeof(t_block);
-		printf("ref data\n");
 		b->used = 1;
 		b->size = size;
 		b->next = NULL;
-		return b;
-	} else {
-		printf("j'en ai pas\n");
-		b = initBlock(size);
-		return b;
-	}
+		return (b);
+	} else
+		return (initBlock(size));
 };
 
-void *addTo(t_block **tiny, int size) {
-	t_block *tmp;
-	int tmp_size;
-	printf("plouf\n");
+void 		*addTo(t_block **tiny, int size) 
+{
+	t_block 	*tmp;
+	int			tmp_size;
+
 	if (*tiny) {
-		printf("oui\n");
 		tmp = *tiny;
 		while(tmp && tmp->next) {
 			tmp_size += tmp->size + sizeof(t_block);
@@ -108,29 +108,21 @@ void *addTo(t_block **tiny, int size) {
 		tmp->next = addBlock(tmp, size, tmp_size);
 		return (void *)(tmp->next->ptr);
 	} else {
-		printf("non\n");
 		*tiny = initBlock(size);
-		return (void *)((*tiny)->ptr);
+		return ((void *)((*tiny)->ptr));
 	}
 }
 
-void *ft_malloc(size_t size) {
-	int i = 1;
-
-	if (size <= 0) {
-		return NULL;
-	}
-	if (size <= TINY) {
-		printf("yoo\n");
-		return addTo(&(ctn).tiny, size);
-	}
-	else if (size <= SMALL) {
-		return addTo(&(ctn).small, size);
-	}
+void 		*ft_malloc(size_t size) 
+{
+	if (size <= 0)
+		return (NULL);
+	if (size <= TINY)
+		return (addTo(&(ctn).tiny, size));
+	else if (size <= SMALL)
+		return (addTo(&(ctn).small, size));
 	else if (size > SMALL) {
-		while (i * SIZE < size)
-			i++;
-		return addTo(&(ctn).large, (i - 1) * SIZE);
+		return (addTo(&(ctn).large, size));
 	}
-	return NULL;
+	return (NULL);
 }
