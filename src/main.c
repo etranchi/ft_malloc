@@ -14,24 +14,24 @@
 
 int main() {
 	printf("%d\n", getpagesize());
-	char *tmp = ft_malloc(sizeof(char) * 1025);
+	char *tmp = ft_malloc(sizeof(char) * 7);
 	tmp= "coucou";
 
 	printf("%s\n", tmp);
 
-	char *tmp1 = ft_malloc(sizeof(char) * 1025);
+	char *tmp1 = ft_malloc(sizeof(char) * 14);
 
-	tmp1= "poualalalala"; 
+	tmp1= "pou"; 
 
 	printf("%s\n", tmp1);
 
-		char *tmp2 = ft_malloc(sizeof(char) * 1025);
+		char *tmp2 = ft_malloc(sizeof(char) * 20);
 
 	tmp2= "poualalalala1"; 
 
 	printf("%s\n", tmp2);
 
-		char *tmp3 = ft_malloc(sizeof(char) * 1025);
+		char *tmp3 = ft_malloc(sizeof(char) * 30);
 
 	tmp3= "poualalalala2"; 
 

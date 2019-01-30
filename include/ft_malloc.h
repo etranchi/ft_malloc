@@ -23,12 +23,37 @@
 # define SMALL 4096
 # define LARGE 4097
 
+
+typedef struct s_malloc
+{
+	int size;
+	int offset;
+	struct s_malloc *next;
+}				t_malloc;
+
+typedef struct s_page
+{
+	void *data;
+	t_malloc *mallocs;
+	struct s_page *next;
+}				t_page;
+
+typedef struct s_container 
+{
+	t_page *tiny;
+	t_page *small;
+	t_page *large;
+}				t_container;
+
+
 typedef struct s_block 
 {
 	off_t 	size;
 	void 	*page;
 }				t_block;
 
+t_container *initContainer(t_container *ctn) ;
+t_container *getContainer();
 void 	ft_free(void *ptr);
 void 	*ft_malloc(size_t size);
 void 	*ft_realloc(void *ptr, size_t size);
