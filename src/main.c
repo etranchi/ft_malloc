@@ -16,23 +16,28 @@ int main() {
 	printf("%d\n", getpagesize());
 	int i = -1;
 
-	while (++i < 100) {
-		char *tmp = ft_malloc(sizeof(char) * 5000);
-		tmp= "coucou";
+	while (++i < 1) {
+		char *tmp = ft_malloc(sizeof(char) * 39);
+		tmp= "tiny";
 		printf("%s\n", tmp);
+		
 	}
+		show_alloc_mem();
 
-	while (++i < 100) {
-		char *tmp = ft_malloc(sizeof(char) * 5000);
-		tmp= "coucou";
-		printf("%s\n", tmp);
-	}
+	// i = 0;
+	// while (++i < 100) {
+	// 	char *tmp = ft_malloc(sizeof(char) * 399);
+	// 	tmp= "small";
+	// 	printf("%s\n", tmp);
+	// }
+	// i = 0;
+	// while (++i < 100) {
+	// 	char *tmp = ft_malloc(sizeof(char) * 5000);
+	// 	tmp= "large";
+	// 	printf("%s\n", tmp);
+	// }
 
-	while (++i < 100) {
-		char *tmp = ft_malloc(sizeof(char) * 5000);
-		tmp= "coucou";
-		printf("%s\n", tmp);
-	}
+
 }
 
 
