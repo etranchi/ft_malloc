@@ -28,14 +28,14 @@
 
 void show_alloc_mem() {
 	
-	t_block *tiny = &ctn.tiny;
-	t_block *small = &ctn.small;
-	t_block *large = &ctn.large;
+	t_block *tiny = ctn.tiny;
+	t_block *small = ctn.small;
+	t_block *large = ctn.large;
 	int total;
 
 	printf("TINY : %p\n", &ctn.tiny);
 	while (tiny) {
-		printf("%p - %p : %d octets\n", &tiny->ptr, (&tiny->ptr + tiny->size ), tiny->size);
+		printf("%p - %p : %d octets\n", tiny->ptr, (tiny->ptr + tiny->size ), tiny->size);
 		total += tiny->size;
 		tiny = tiny->next;
 	}
@@ -56,7 +56,7 @@ void show_alloc_mem() {
 }
 
 
-t_block initBlock(int size) {
+t_block *initBlock(int size) {
 	t_block *b;
 
 	
@@ -66,46 +66,51 @@ t_block initBlock(int size) {
 		exit(0);
 	}
 
- 	b->ptr = &b + sizeof(t_block);
+ 	b->ptr = b + sizeof(t_block);
  	b->size = size;
- 	printf("b size %d\n", b->size);
 	b->used = 1;
 	b->next = NULL;
-	return *b;
+	return b;
 }
 
 t_block *addBlock(t_block *ref, int size, int all_size) {
-	t_block b;
+	t_block *b;
+
+	printf("je suis la\n");
 	if (all_size + size + sizeof(t_block) < SIZE) { 
-		b.ptr = ref->ptr + size + sizeof(t_block);
-		b.used = 1;
-		b.size = size;
-		b.next = NULL;
-		return &b;
+		printf("j'ai de la place\n");
+		b = ref->ptr + ref->size;
+		printf("ref maillon\n");
+		b->ptr = b + sizeof(t_block);
+		printf("ref data\n");
+		b->used = 1;
+		b->size = size;
+		b->next = NULL;
+		return b;
 	} else {
+		printf("j'en ai pas\n");
 		b = initBlock(size);
-		return &b;
+		return b;
 	}
 };
 
-void *addTo(t_block *tiny, int size) {
+void *addTo(t_block **tiny, int size) {
 	t_block *tmp;
 	int tmp_size;
-
 	printf("plouf\n");
-	if (&ctn.tiny ) {
-		*tiny = initBlock(size);
-		printf("testtt %d\n", tiny->size);
-		printf("testtt 222 %d\n", ctn.tiny.size);
-		return (void *)(tiny->ptr);
-	} else {
-		tmp = tiny;
+	if (*tiny) {
+		printf("oui\n");
+		tmp = *tiny;
 		while(tmp && tmp->next) {
 			tmp_size += tmp->size + sizeof(t_block);
 			tmp = tmp->next;
 		}
 		tmp->next = addBlock(tmp, size, tmp_size);
 		return (void *)(tmp->next->ptr);
+	} else {
+		printf("non\n");
+		*tiny = initBlock(size);
+		return (void *)((*tiny)->ptr);
 	}
 }
 
@@ -116,6 +121,7 @@ void *ft_malloc(size_t size) {
 		return NULL;
 	}
 	if (size <= TINY) {
+		printf("yoo\n");
 		return addTo(&(ctn).tiny, size);
 	}
 	else if (size <= SMALL) {

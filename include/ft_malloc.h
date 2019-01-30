@@ -34,12 +34,12 @@ typedef struct s_block
 
 typedef struct s_container 
 {
-	t_block tiny;
-	t_block small;
-	t_block large;
+	t_block *tiny;
+	t_block *small;
+	t_block *large;
 }				t_container;
 
-static t_container ctn;
+static t_container ctn = { NULL, NULL, NULL};
 
 t_container *initContainer(t_container *ctn) ;
 t_container *getContainer();
