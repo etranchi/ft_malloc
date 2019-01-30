@@ -19,38 +19,27 @@
 # include "../lib/libft/libft.h"
 
 # define SIZE getpagesize()
-# define TINY 1024
+# define TINY 40
 # define SMALL 4096
 # define LARGE 4097
 
 
-typedef struct s_malloc
+typedef struct s_block 
 {
-	int size;
-	int offset;
-	struct s_malloc *next;
-}				t_malloc;
-
-typedef struct s_page
-{
-	void *data;
-	t_malloc *mallocs;
-	struct s_page *next;
-}				t_page;
+	void 	*ptr;
+	int 	used;
+	int 	size;
+	struct s_block *next;
+}				t_block;
 
 typedef struct s_container 
 {
-	t_page *tiny;
-	t_page *small;
-	t_page *large;
+	t_block *tiny;
+	t_block *small;
+	t_block *large;
 }				t_container;
 
 
-typedef struct s_block 
-{
-	off_t 	size;
-	void 	*page;
-}				t_block;
 
 t_container *initContainer(t_container *ctn) ;
 t_container *getContainer();
