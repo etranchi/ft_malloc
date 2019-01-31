@@ -26,7 +26,7 @@
 
 typedef struct s_block 
 {
-	void 	*ptr;
+	void 	*ref;
 	int 	used;
 	int 	size;
 	struct s_block *next;

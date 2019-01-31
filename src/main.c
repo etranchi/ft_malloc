@@ -16,8 +16,8 @@ int main() {
 	printf("%d\n", getpagesize());
 	int i = -1;
 
-	while (++i < 6) {
-		char *tmp = ft_malloc(sizeof(char) * (40 - i));
+	while (++i < 10) {
+		char *tmp = ft_malloc(sizeof(char) * (39 - i));
 		tmp= "tiny";
 		printf("%s\n", tmp);
 		
