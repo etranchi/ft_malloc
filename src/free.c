@@ -12,33 +12,83 @@
 
 # include "../include/ft_malloc.h"
 
-
-int check_list(t_block **lst, void *ptr) {
+void check_this_map(t_block **lst, t_block *prev, t_block **g_ref) {
 	t_block *tmp;
 	t_block *ref;
-	int offset;
+	t_block *pre;
+	void *offset;
 
+	tmp = *lst;
 	ref = *lst;
+	pre = NULL;
+	while (tmp) {
+		if (tmp < ref || tmp > ref + sizeof(t_block)) {
+			break ;
+		}
+		if (tmp->used) {
+			return ;
+		}
+		pre = tmp;
+		tmp = tmp->next;
+	}
+	if (*lst == *g_ref) {
+		if (pre->next && prev) {
+			prev->next = pre->next;
+		}
+		if (munmap(&ref, ref->all_size)) {
+			printf("success munmap\n");
+		} else {
+			printf("error munmap\n");
+		}
+	}
+}
+
+
+void check_munmap(t_block **lst, t_block *prev) {
+	t_block *tmp;
+
+
 	tmp = *lst;
 	while (tmp) {
-		if (ref->ref != tmp->ref) {
-
+		if (tmp >= *lst && tmp < (*lst) + (*lst)->all_size) {
+			check_this_map(&tmp, prev, lst);
+			return ;
 		}
+		prev = tmp;
 		tmp = tmp->next;
 	}
 }
 
-void free(void *ptr) {
+int check_list(t_block **lst, void *ptr) {
+	t_block *tmp;
+	t_block *prev;
+
+	prev = NULL;
+	tmp = *lst;
+	while (tmp) {
+		if (tmp->ptr == ptr) {
+			tmp->used = 0;
+			check_munmap(&tmp, prev);
+			return (1);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (0);
+	
+}
+
+void ft_free(void *ptr) {
 	if (!ptr) {
 		return ;
 	}
-	if (check_list(&(ctn).tiny, ptr)) {
+	if (check_list(&(g_ctn).tiny, ptr)) {
 		return ;
 	}
-	if (check_list(&(ctn).small, ptr)) {
+	if (check_list(&(g_ctn).small, ptr)) {
 		return ;
 	}
-	if (check_list(&(ctn).large, ptr)) {
+	if (check_list(&(g_ctn).large, ptr)) {
 		return ;
 	}
 }

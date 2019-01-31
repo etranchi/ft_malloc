@@ -26,9 +26,10 @@
 
 typedef struct s_block 
 {
-	void 	*ref;
+	void 	*ptr;
 	int 	used;
 	int 	size;
+	int 	all_size;
 	struct s_block *next;
 }				t_block;
 
@@ -39,7 +40,7 @@ typedef struct s_container
 	t_block *large;
 }				t_container;
 
-static t_container ctn = { NULL, NULL, NULL};
+t_container g_ctn;
 
 t_container *initContainer(t_container *ctn) ;
 t_container *getContainer();
