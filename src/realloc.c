@@ -28,14 +28,9 @@ static void *check_list(t_block **lst, void *ptr, size_t size) {
 				}
 				return ptr;
 			} else {
-				if (!tmp->next && ref + ref->all_size < tmp + size) {
-					tmp->size = size;
-					return ptr;
-				} else {
-					out = ft_memcpy(ft_malloc(size), tmp->ptr, tmp->size);
-					ft_free(tmp->ptr);
-					return out;
-				}
+				out = ft_memcpy(ft_malloc(size), tmp->ptr, size > tmp->size ? tmp->size : size);
+				ft_free(tmp->ptr);
+				return out;
 			}
 		}
 		tmp = tmp->next;
@@ -48,22 +43,18 @@ static void *check_list(t_block **lst, void *ptr, size_t size) {
 void *ft_realloc(void *ptr, size_t size) {
 	void *ret;
 
-	printf("%p\n", ptr);
 	if (!ptr) {
-		printf("yo\n");
 		return ft_malloc(size);
 	}
 	if ((ret = check_list(&(g_ctn).tiny, ptr, size))) {
-		printf("yo1\n");
 		return ret;
 	}
 	if ((ret = check_list(&(g_ctn).small, ptr, size))) {
-		printf("yo2\n");
 		return ret;
 	}
 	if ((ret = check_list(&(g_ctn).large, ptr ,size))) {
-		printf("yo3\n");
 		return ret;
 	}
+	return NULL;
 
 }

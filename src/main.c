@@ -16,14 +16,25 @@ int main() {
 	// printf("%d\n", getpagesize());
 	int i = 0;
 	char *tmp;
-	
-	while (i < 1024) {
-		tmp = (char *)ft_malloc(1024);
-		tmp[0] = 42;
+	char *tmp1;
+	char *tmp2;
 
-		i++;
-		ft_free(tmp);
+	tmp = (char*)ft_malloc(16);
+	ft_free(NULL);
+	ft_free((void *)tmp + 5);
+	if (ft_realloc((void *)tmp + 5, 10) == NULL) {
+		printf("BOnjours\n");
 	}
+
+
+
+	// while (i < 1024) {
+	// 	tmp = (char *)ft_malloc(1024);
+	// 	tmp[0] = 42;
+
+	// 	i++;
+	// 	ft_free(tmp);
+	// }
 	// show_alloc_mem();
 	// tmp1 = NULL;
 	// char *yo = ft_realloc(tmp1, 5004);

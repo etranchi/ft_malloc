@@ -68,9 +68,9 @@ t_block 	*initBlock(int block_size, int data_size)
 
 	i = 1;
 	j++;
-	while (i * SIZE < block_size)
+	while (i * SIZE < block_size + sizeof(t_block))
 		i++;
-	printf("%d\n", j);
+
 	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
 	if (b == MAP_FAILED) {
 		printf("MAP FAILED\n");
