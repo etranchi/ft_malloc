@@ -18,8 +18,8 @@ int main() {
 	char *tmp;
 	
 	while (i < 1024) {
-		tmp = (char *)ft_malloc(1024);
-		tmp[0] = 42;
+		// tmp = (char *)malloc(1024);
+		// tmp[0] = 42;
 
 		i++;
 		// ft_free(tmp);

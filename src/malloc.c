@@ -77,22 +77,22 @@ t_block 	*initBlock(int block_size, int data_size)
 	}
  	b->ptr =(void *)b + sizeof(t_block);
  	b->size = data_size;
- 	b->all_size = i * SIZE;
+ 	b->all_size = (i * SIZE) - data_size - sizeof(t_block);
 	b->used = 1;
 	b->next = NULL;
 	return (b);
 }
 
-t_block 	*addBlock(t_block *ref, int data_size, int block_size, int all_size) 
+t_block 	*addBlock(t_block *ref, int data_size, int block_size) 
 {
 	t_block *b;
 
-	if (all_size + data_size + sizeof(t_block) < ref->all_size) { 
+	if (data_size + sizeof(t_block) < ref->all_size) { 
 		b = (void *)ref->ptr + ref->size;
 		b->ptr = (void *)b + sizeof(t_block);
 		b->used = 1;
 		b->size = data_size;
-		b->all_size = ref->all_size;
+		b->all_size = ref->all_size - data_size - sizeof(t_block);
 		b->next = NULL;
 		return (b);
 	} else {
@@ -103,26 +103,19 @@ t_block 	*addBlock(t_block *ref, int data_size, int block_size, int all_size)
 void 		*addTo(t_block **tiny, int block_size, int data_size) 
 {
 	t_block 	*tmp;
-	int			tmp_size;
 	t_block 	*ref;
 
-	tmp_size = 0;
 	if (*tiny) {
 		tmp = *tiny;
 		ref = *tiny;
-
 		while(tmp && tmp->next) {
-			if (ref->all_size < tmp_size + tmp->size + sizeof(t_block)) {
-				break;
-			}
-			else if (!tmp->used && tmp->size >= data_size) {
+			if (!tmp->used && tmp->size >= data_size) {
 				tmp->used = 1;
 				return tmp->ptr;
 			}
-			tmp_size += tmp->size + sizeof(t_block);
 			tmp = tmp->next;
 		}
-		tmp->next = addBlock(ref, data_size, block_size, tmp_size);
+		tmp->next = addBlock(tmp, data_size, block_size);
 		return (void *)(tmp->next->ptr);
 	} else {
 		*tiny = initBlock(block_size, data_size);
