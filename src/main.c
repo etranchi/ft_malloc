@@ -18,11 +18,11 @@ int main() {
 	char *tmp;
 	
 	while (i < 1024) {
-		// tmp = (char *)malloc(1024);
-		// tmp[0] = 42;
+		tmp = (char *)ft_malloc(1024);
+		tmp[0] = 42;
 
 		i++;
-		// ft_free(tmp);
+		ft_free(tmp);
 	}
 	// show_alloc_mem();
 	// tmp1 = NULL;

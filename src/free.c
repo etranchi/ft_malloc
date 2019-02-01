@@ -49,8 +49,10 @@ void check_munmap(t_block **lst, t_block *prev, t_block **ref) {
 
 	tmp = *lst;
 	while (tmp) {
-		if (tmp >= *lst && tmp < (*lst) + (*lst)->all_size) {
+		if (tmp >= *lst && (void *)tmp + tmp->all_size + sizeof(t_block) < (void *)(*lst)) {
 			check_this_map(&tmp, prev, ref);
+		}
+		else {
 			return ;
 		}
 		prev = tmp;
@@ -60,17 +62,19 @@ void check_munmap(t_block **lst, t_block *prev, t_block **ref) {
 
 static int check_list(t_block **lst, void *ptr) {
 	t_block *tmp;
-	t_block *prev;
+	t_block *ref;
 
-	prev = NULL;
 	tmp = *lst;
+	ref = *lst;
 	while (tmp) {
+		if ((void *)tmp > (void *)ref + ref->all_size || tmp < ref) {
+			ref = tmp;
+		}
 		if (tmp->ptr == ptr) {
 			tmp->used = 0;
-			check_munmap(&tmp, prev, lst);
+			check_munmap(&tmp, ref, lst);
 			return (1);
 		}
-		prev = tmp;
 		tmp = tmp->next;
 	}
 	return (0);

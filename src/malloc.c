@@ -70,6 +70,7 @@ t_block 	*initBlock(int block_size, int data_size)
 	j++;
 	while (i * SIZE < block_size)
 		i++;
+	printf("%d\n", j);
 	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
 	if (b == MAP_FAILED) {
 		printf("MAP FAILED\n");
@@ -141,7 +142,7 @@ void 		*ft_malloc(size_t size)
 	else if (size < SMALL)
 		return (addTo(&(g_ctn).small, 100 * (SMALL + sizeof(t_block)), size));
 	else {
-		return (addTo(&(g_ctn).large, ((size + sizeof(t_block) / SMALL) + 1) * SIZE, size));
+		return (addTo(&(g_ctn).large, size , size));
 	}
 	return (NULL);
 }
