@@ -13,14 +13,21 @@
 #include "../include/ft_malloc.h"
 
 int main() {
-	printf("%d\n", getpagesize());
-	int i = -1;
-	char *tmp = ft_malloc(sizeof(char) * 5001);
-	char *tmp1 = ft_malloc(sizeof(char) * 5002);
-	char *tmp2 = ft_malloc(sizeof(char) * 5003);
+	// printf("%d\n", getpagesize());
+	int i = 0;
+	char *tmp;
+	
+	while (i < 1024) {
+		tmp = (char *)ft_malloc(1024);
+		tmp[0] = 42;
 
-	ft_free(tmp1);
-	show_alloc_mem();
+		i++;
+		// ft_free(tmp);
+	}
+	// show_alloc_mem();
+	// tmp1 = NULL;
+	// char *yo = ft_realloc(tmp1, 5004);
+	// show_alloc_mem();
 	// while (++i < 2) {
 		
 	// 	ft_free(ft_malloc(sizeof(char) * (39 - i)));

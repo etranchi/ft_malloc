@@ -19,9 +19,8 @@
 # include "../lib/libft/libft.h"
 
 # define SIZE getpagesize()
-# define TINY 40
-# define SMALL 4096
-# define LARGE 4097
+# define TINY SIZE / 4 
+# define SMALL SIZE 
 
 
 typedef struct s_block 
