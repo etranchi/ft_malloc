@@ -12,42 +12,6 @@
 
 #include "../include/ft_malloc.h"
 
-void			show_alloc_mem() 
-{
-	t_block *tiny;
-	t_block *small;
-	t_block *large;
-	int		total;
-
-	tiny = g_ctn.tiny;
-	small = g_ctn.small;
-	large = g_ctn.large;
-	total = 0;
-	printf("TINY : %p\n", tiny);
-	while (tiny)
-	{
-		printf("%p - %p : %d octets\n", tiny->ptr, (tiny->ptr + tiny->size), tiny->size);
-		total += tiny->size;
-		tiny = tiny->next;
-	}
-	printf("SMALL : %p\n", small);
-	while (small)
-	{
-		printf("%p - %p : %d octets\n", small->ptr, small->ptr + small->size, small->size);
-		total += small->size;
-		small = small->next;
-	}
-	printf("LARGE : %p\n", large);
-	while (large)
-	{
-		printf("%p - %p : %d octets\n", large->ptr, large->ptr + large->size, large->size);
-		total += large->size;
-		large = large->next;
-	}
-	printf("Total : %d octets\n", total);
-	return ;
-}
-
 t_block			*init_block(int block_size, int data_size)
 {
 	t_block			*b;
@@ -62,7 +26,7 @@ t_block			*init_block(int block_size, int data_size)
 		MAP_ANON | MAP_PRIVATE, 0, 0);
 	if (b == MAP_FAILED)
 	{
-		printf("MAP FAILED\n");
+		ft_printf("MAP FAILED\n");
 		exit(0);
 	}
 	b->ptr = (void *)b + sizeof(t_block);
@@ -121,7 +85,7 @@ void			*add_to(t_block **tiny, int block_size, int data_size)
 	}
 }
 
-void			*ft_malloc(size_t size)
+void			*malloc(size_t size)
 {
 	static int first_time = 0;
 

@@ -10,51 +10,48 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../include/ft_malloc.h"
+#include "../include/ft_malloc.h"
 
-
-static void *check_list(t_block **lst, void *ptr, size_t size) {
-	t_block *tmp;
-	t_block *ref;
-	t_block *out;
+static void			*check_list(t_block **lst, void *ptr, size_t size)
+{
+	t_block		*tmp;
+	t_block		*ref;
+	t_block		*out;
 
 	ref = *lst;
 	tmp = *lst;
-	while (tmp) {
-		if (tmp->ptr == ptr) {
-			if (size <= tmp->size) {
-				if (!tmp->next) {
+	while (tmp)
+	{
+		if (tmp->ptr == ptr)
+			if (size <= tmp->size)
+			{
+				if (!tmp->next)
 					tmp->size = size;
-				}
-				return ptr;
-			} else {
-				out = ft_memcpy(ft_malloc(size), tmp->ptr, size > tmp->size ? tmp->size : size);
-				ft_free(tmp->ptr);
-				return out;
+				return (ptr);
 			}
-		}
+			else
+			{
+				out = ft_memcpy(malloc(size), tmp->ptr,
+					size > tmp->size ? tmp->size : size);
+				free(tmp->ptr);
+				return (out);
+			}
 		tmp = tmp->next;
 	}
 	return (NULL);
-	
 }
 
-
-void *ft_realloc(void *ptr, size_t size) {
+void				*realloc(void *ptr, size_t size)
+{
 	void *ret;
 
-	if (!ptr) {
-		return ft_malloc(size);
-	}
-	if ((ret = check_list(&(g_ctn).tiny, ptr, size))) {
-		return ret;
-	}
-	if ((ret = check_list(&(g_ctn).small, ptr, size))) {
-		return ret;
-	}
-	if ((ret = check_list(&(g_ctn).large, ptr ,size))) {
-		return ret;
-	}
-	return NULL;
-
+	if (!ptr)
+		return (malloc(size));
+	if ((ret = check_list(&(g_ctn).tiny, ptr, size)))
+		return (ret);
+	if ((ret = check_list(&(g_ctn).small, ptr, size)))
+		return (ret);
+	if ((ret = check_list(&(g_ctn).large, ptr, size)))
+		return (ret);
+	return (NULL);
 }

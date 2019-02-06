@@ -23,7 +23,7 @@ int main() {
 	ft_free(NULL);
 	ft_free((void *)tmp + 5);
 	if (ft_realloc((void *)tmp + 5, 10) == NULL) {
-		printf("Bonjours\n");
+		ft_printf("Bonjours\n");
 	}
 
 	while ( i < 3){

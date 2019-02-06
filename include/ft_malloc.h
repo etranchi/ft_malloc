@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <sys/mman.h>
 
+# include "../lib/ft_printf/ft_printf.h"
 # include "../lib/libft/libft.h"
 
 # define SIZE getpagesize()
@@ -43,9 +44,9 @@ t_container g_ctn;
 
 t_container *initContainer(t_container *ctn) ;
 t_container *getContainer();
-void 	ft_free(void *ptr);
-void 	*ft_malloc(size_t size);
-void 	*ft_realloc(void *ptr, size_t size);
+void 	free(void *ptr);
+void 	*malloc(size_t size);
+void 	*realloc(void *ptr, size_t size);
 void 	show_alloc_mem();
 
 #endif
