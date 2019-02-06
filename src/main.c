@@ -23,44 +23,15 @@ int main() {
 	ft_free(NULL);
 	ft_free((void *)tmp + 5);
 	if (ft_realloc((void *)tmp + 5, 10) == NULL) {
-		printf("BOnjours\n");
+		printf("Bonjours\n");
 	}
 
+	while ( i < 3){
+		tmp = ft_malloc(sizeof(char) * 1024);
 
-
-	// while (i < 1024) {
-	// 	tmp = (char *)ft_malloc(1024);
-	// 	tmp[0] = 42;
-
-	// 	i++;
-	// 	ft_free(tmp);
-	// }
-	// show_alloc_mem();
-	// tmp1 = NULL;
-	// char *yo = ft_realloc(tmp1, 5004);
-	// show_alloc_mem();
-	// while (++i < 2) {
-		
-	// 	ft_free(ft_malloc(sizeof(char) * (39 - i)));
-	// 	show_alloc_mem();
-	// }
-		
-
-	// i = 0;
-	// while (++i < 100) {
-	// 	char *tmp = ft_malloc(sizeof(char) * 399);
-	// 	tmp= "small";
-	// 	printf("%s\n", tmp);
-	// }
-	// i = 0;
-	// while (++i < 2) {
-	// 	ft_free(ft_malloc(sizeof(char) * 5000));
-	// 	show_alloc_mem();
-	// }
-
-	
-
-
+		i++;
+	}
+	show_alloc_mem();
 }
 
 

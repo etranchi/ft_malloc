@@ -13,19 +13,6 @@
 # include "../include/ft_malloc.h"
 
 
-// t_page *initPage(int size) {
-// 	t_page page;
-
-// 	page.data = mmap(0, SIZE, PROT_READ| PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
-// 	if (page.data == MAP_FAILED) {
-//
-// 		exit(0);
-// 	}
-// 	page.mallocs = NULL;
-// 	page.next = NULL;
-// 	return &page;
-// }
-
 void 		show_alloc_mem() 
 {
 	t_block *tiny;
@@ -37,6 +24,7 @@ void 		show_alloc_mem()
 	small = g_ctn.small;
 	large = g_ctn.large;
 	total = 0;
+	printf("TINY : %p\n", tiny);
 	while (tiny) {
 		if (tiny->used) {
 			printf("%p - %p : %d octets\n", tiny->ptr, (tiny->ptr + tiny->size ), tiny->size);
@@ -44,19 +32,19 @@ void 		show_alloc_mem()
 		}
 		tiny = tiny->next;
 	}
+	printf("SMALL : %p\n", small);
 	while (small) {
 		printf("%p - %p : %d octets\n", small->ptr, small->ptr + small->size, small->size);
 		total += small->size;
 		small = small->next;
 	}
-
+	printf("LARGE : %p\n", large);
 	while (large) {
-		// if (large->used) {
 			printf("%p - %p : %d octets\n", large->ptr, large->ptr + large->size, large->size);
 			total += large->size;
-		// /}
 		large = large->next;
 	}
+	printf("Total : %d octets\n", total);
 }
 
 
