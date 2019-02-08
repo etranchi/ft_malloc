@@ -20,8 +20,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@make -C ./lib/ft_printf all
-	echo titi
-	$(CC) $(NAME) -shared -o $@ $^ $(PRINTF)
+	$(CC) -shared -o $(NAME) $^ $(PRINTF)
 	ln -sn $(NAME) $(MALLOC).so
 	@ echo "\n\033[92m---> ft_malloc program created ✓\033[0m";
 
