@@ -43,7 +43,7 @@ void			check_this_map(t_block **lst, t_block *prev, t_block **g_ref)
 void			check_munmap(t_block **lst, t_block *prev, t_block **ref)
 {
 	t_block		*tmp;
-	size_t		tmp_size;
+	void		*tmp_size;
 
 	tmp = *lst;
 	while (tmp)

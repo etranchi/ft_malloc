@@ -17,7 +17,6 @@
 # include <sys/mman.h>
 
 # include "../lib/ft_printf/ft_printf.h"
-# include "../lib/libft/libft.h"
 
 # define SIZE getpagesize()
 # define TINY SIZE / 4 
@@ -41,6 +40,8 @@ typedef struct s_container
 }				t_container;
 
 t_container g_ctn;
+
+int		ft_printf(const char *format, ...);
 
 t_container *initContainer(t_container *ctn) ;
 t_container *getContainer();

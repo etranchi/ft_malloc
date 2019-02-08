@@ -15,14 +15,13 @@
 static void			*check_list(t_block **lst, void *ptr, size_t size)
 {
 	t_block		*tmp;
-	t_block		*ref;
 	t_block		*out;
 
-	ref = *lst;
 	tmp = *lst;
 	while (tmp)
 	{
 		if (tmp->ptr == ptr)
+		{
 			if (size <= tmp->size)
 			{
 				if (!tmp->next)
@@ -36,6 +35,7 @@ static void			*check_list(t_block **lst, void *ptr, size_t size)
 				free(tmp->ptr);
 				return (out);
 			}
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);

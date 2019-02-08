@@ -36,7 +36,7 @@ clean:
 
 fclean: clean
 	@ /bin/rm -f $(NAME)
-	@ /bin/rm -f libft_malloc_$(HOSTTYPE).so
+	@ /bin/rm -f libft_malloc_*.so
 	@ /bin/rm -f libft_malloc.so
 	@ echo "\n\033[1;33m---> Everything cleared\033[2;00m \033[92m✓\033[0m";
 			
