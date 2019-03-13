@@ -18,7 +18,7 @@ int				check_this_map(t_block **lst, t_block *prev_ref)
 	t_block		*pre;
 	void		*offset;
 
-	tmp = *lst;
+	tmp = (*lst);
 	pre = NULL;
 	while (tmp && (void *)tmp + tmp->size + sizeof(t_block) < (void *)(*lst) + (*lst)->size + (*lst)->all_size + sizeof(t_block))
 	{
@@ -30,27 +30,8 @@ int				check_this_map(t_block **lst, t_block *prev_ref)
 	if (pre->next && prev_ref)
 		prev_ref->next = pre->next;
 	munmap(&(*lst), (*lst)->all_size + (*lst)->size + sizeof(t_block));
-	*lst = NULL;
 	return (1);
 }
-
-// void			check_munmap(t_block **lst, t_block *prev, t_block **ref)
-// {
-// 	t_block		*tmp;
-// 	void		*tmp_size;
-
-// 	tmp = *lst;
-
-// 	while (tmp)
-// 	{
-// 		if (tmp->ptr + tmp->all_size + sizeof(t_block) > (*lst)->ptr + (*lst)->all_size) {
-// 			if (check_this_map(&tmp, prev, ref)) 
-// 				return ;
-// 		}
-// 		prev = tmp;
-// 		tmp = tmp->next;
-// 	}
-// }
 
 static int		check_list(t_block **lst, void *ptr)
 {
@@ -61,6 +42,7 @@ static int		check_list(t_block **lst, void *ptr)
 
 	tmp = *lst;
 	ref = *lst;
+	prev_ref = *lst;
 	while (tmp)
 	{
 		if ((void *)tmp + tmp->size + sizeof(t_block) > (void *)ref + ref->all_size + sizeof(t_block)) {
@@ -70,7 +52,9 @@ static int		check_list(t_block **lst, void *ptr)
 		if (tmp->ptr == ptr)
 		{
 			tmp->used = 0;
-			check_this_map(&ref, prev_ref);
+			if (check_this_map(&ref, prev_ref))
+				if (ref == (*lst))
+					*lst = NULL;
 			return (1);
 		}
 		tmp_prev = tmp;

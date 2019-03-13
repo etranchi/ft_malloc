@@ -19,6 +19,7 @@ t_block			*init_block(int block_size, int data_size)
 	int				j;
 
 	i = 1;
+	j++;
 	while (i * SIZE < block_size + sizeof(t_block))
 		i++;
 	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
