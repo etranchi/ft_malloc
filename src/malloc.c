@@ -16,10 +16,9 @@ t_block			*init_block(int block_size, int data_size)
 {
 	t_block			*b;
 	int				i;
-	static int		j = 0;
+	int				j;
 
 	i = 1;
-	j++;
 	while (i * SIZE < block_size + sizeof(t_block))
 		i++;
 	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
@@ -27,8 +26,10 @@ t_block			*init_block(int block_size, int data_size)
 	if (b == MAP_FAILED)
 		return (NULL);
 	b->ptr = (void *)b + sizeof(t_block);
-	b->size = data_size;
-	b->all_size = (i * SIZE) - data_size - sizeof(t_block);
+	j = -1;
+	while (++j * 16 < data_size);
+	b->size = j * 16;
+	b->all_size = (i * SIZE) - b->size - sizeof(t_block);
 	b->used = 1;
 	b->next = NULL;
 	return (b);
@@ -48,7 +49,7 @@ t_block			*add_block(t_block *ref, int data_size, int block_size)
 		b->used = 1;
 		while (++i * 16 < data_size);
 		b->size = i * 16;
-		b->all_size = ref->all_size - data_size - sizeof(t_block);
+		b->all_size = ref->all_size - b->size - sizeof(t_block);
 		b->next = NULL;
 		return (b);
 	}
