@@ -22,9 +22,11 @@ int				show_list(t_block **lst, char *type)
 	ft_printf("%s : %p \n", type, tmp);
 	while (tmp)
 	{
-		ft_printf("%p - %p : %d octets\n",
-			tmp->ptr, (tmp->ptr + tmp->size), tmp->size);
-		total += tmp->size;
+		if (tmp->used) {
+			ft_printf("%p - %p : %lu octets\n",
+				tmp->ptr, (tmp->ptr + tmp->size), tmp->size);
+			total += tmp->size;
+		}
 		tmp = tmp->next;
 	}
 	return (total);
@@ -38,6 +40,6 @@ void			show_alloc_mem(void)
 	total += show_list(&g_ctn.tiny, "TINY");
 	total += show_list(&g_ctn.small, "SMALL");
 	total += show_list(&g_ctn.large, "LARGE");
-	printf("Total : %d octets\n", total);
+	ft_printf("Total : %lu octets\n", total);
 	return ;
 }

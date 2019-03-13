@@ -33,10 +33,10 @@ void			check_this_map(t_block **lst, t_block *prev, t_block **g_ref)
 	{
 		if (pre->next && prev)
 			prev->next = pre->next;
-		if (munmap(&(*lst), (*lst)->all_size))
-			ft_printf("success munmap\n");
-		else
-			ft_printf("error munmap\n");
+		munmap(&(*lst), (*lst)->all_size);
+			//ft_printf("success munmap\n");
+		//else
+		//	ft_printf("error munmap\n");
 	}
 }
 
