@@ -28,7 +28,8 @@ t_block			*init_block(int block_size, int data_size)
 		return (NULL);
 	b->ptr = (void *)b + sizeof(t_block);
 	j = -1;
-	while (++j * 16 < data_size);
+	while (++j * 16 < data_size)
+		;
 	b->size = j * 16;
 	b->all_size = (i * SIZE) - b->size - sizeof(t_block);
 	b->used = 1;
@@ -48,7 +49,8 @@ t_block			*add_block(t_block *ref, int data_size, int block_size)
 		b = (void *)ref->ptr + ref->size;
 		b->ptr = (void *)b + sizeof(t_block);
 		b->used = 1;
-		while (++i * 16 < data_size);
+		while (++i * 16 < data_size)
+			;
 		b->size = i * 16;
 		b->all_size = ref->all_size - b->size - sizeof(t_block);
 		b->next = NULL;
@@ -73,7 +75,7 @@ void			*add_to(t_block **tiny, int block_size, int data_size)
 		while (tmp && tmp->next)
 		{
 			if (!tmp->used && tmp->size >= data_size)
-			{	
+			{
 				tmp->used = 1;
 				return (tmp->ptr);
 			}
@@ -100,9 +102,8 @@ void			*malloc(size_t size)
 		g_ctn.large = NULL;
 		first_time = 1;
 	}
-	if ((int) size <= 0) {
+	if ((int)size <= 0)
 		return (NULL);
-	}
 	if (size < TINY)
 		return (add_to(&(g_ctn).tiny, 100 * (TINY + sizeof(t_block)), size));
 	else if (size < SMALL)

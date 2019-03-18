@@ -22,7 +22,8 @@ int				show_list(t_block **lst, char *type)
 	ft_printf("%s : %p \n", type, tmp);
 	while (tmp)
 	{
-		if (tmp->used) {
+		if (tmp->used)
+		{
 			ft_printf("%p - %p : %lu octets\n",
 				tmp->ptr, (tmp->ptr + tmp->size), tmp->size);
 			total += tmp->size;

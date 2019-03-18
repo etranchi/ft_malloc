@@ -18,36 +18,32 @@
 
 # include "../lib/ft_printf/ft_printf.h"
 
-# define SIZE getpagesize()
-# define TINY SIZE / 4 
-# define SMALL SIZE 
+# define SIZE 4096
+# define TINY 512
+# define SMALL SIZE
 
-
-typedef struct s_block 
+typedef struct		s_block
 {
-	void 	*ptr;
-	int 	used;
-	int 	size;
-	int 	all_size;
-	struct s_block *next;
-}				t_block;
+	void			*ptr;
+	int				used;
+	int				size;
+	int				all_size;
+	struct s_block	*next;
+}					t_block;
 
-typedef struct s_container 
+typedef struct		s_container
 {
-	t_block *tiny;
-	t_block *small;
-	t_block *large;
-}				t_container;
+	t_block			*tiny;
+	t_block			*small;
+	t_block			*large;
+}					t_container;
 
-t_container g_ctn;
+t_container			g_ctn;
 
-int		ft_printf(const char *format, ...);
-
-t_container *initContainer(t_container *ctn) ;
-t_container *getContainer();
-void 	free(void *ptr);
-void 	*malloc(size_t size);
-void 	*realloc(void *ptr, size_t size);
-void 	show_alloc_mem();
+int					ft_printf(const char *format, ...);
+void				free(void *ptr);
+void				*malloc(size_t size);
+void				*realloc(void *ptr, size_t size);
+void				show_alloc_mem();
 
 #endif

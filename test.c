@@ -12,9 +12,9 @@ int main() {
 	malloc(20000);
 	malloc(20000);
 	malloc(2000000000);
-	//realloc(ptr + 2, 22);
-	//malloc(32);
-	//ptr = malloc(533300);
+	realloc(ptr + 2, 22);
+	malloc(32);
+	ptr = malloc(533300);
 	free(ptr);
 	show_alloc_mem();
 	return (0);
