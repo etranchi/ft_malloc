@@ -12,15 +12,16 @@
 
 #include "../include/ft_malloc.h"
 
-int				check_this_map(t_block **lst, t_block *prev_ref)
+int				check_this_map(t_block **lst, t_block *prev_ref, t_block *tmp_b)
 {
 	t_block		*tmp;
 	t_block		*pre;
-	int			*tmp_size;
+	int			tmp_size;
 	int			lst_size;
 
 	tmp = (*lst);
 	pre = NULL;
+	tmp_b->used = 0;
 	lst_size = (*lst)->size + (*lst)->all_size + sizeof(t_block);
 	tmp_size = tmp_size + sizeof(t_block);
 	while (tmp && (void *)tmp + tmp_size < (void *)(*lst) + lst_size)
@@ -37,12 +38,11 @@ int				check_this_map(t_block **lst, t_block *prev_ref)
 	return (1);
 }
 
-int				go_to_check(t_block *tmp, t_block **ref, t_block *prev_ref)
+void			change_value(t_block *prev_ref, t_block *tmp_prev,
+	t_block *ref, t_block *tmp)
 {
-	tmp->used = 0;
-	if (check_this_map(&ref, prev_ref) && ref == (*lst))
-		*lst = NULL;
-	return (1);
+	prev_ref = tmp_prev;
+	ref = tmp;
 }
 
 static int		check_list(t_block **lst, void *ptr)
@@ -59,12 +59,13 @@ static int		check_list(t_block **lst, void *ptr)
 	{
 		if ((void *)tmp + tmp->size + sizeof(t_block) >
 			(void *)ref + ref->all_size + sizeof(t_block))
-		{
-			prev_ref = tmp_prev;
-			ref = tmp;
-		}
+			change_value(prev_ref, tmp_prev, ref, tmp);
 		if (tmp->ptr == ptr)
-			return (go_to_check(tmp, &ref, prev_ref));
+			if (check_this_map(&ref, prev_ref, tmp))
+				if (ref == (*lst))
+					*lst = NULL;
+		if (tmp->ptr == ptr)
+			return (1);
 		tmp_prev = tmp;
 		tmp = tmp->next;
 	}
