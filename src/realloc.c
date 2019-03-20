@@ -12,10 +12,22 @@
 
 #include "../include/ft_malloc.h"
 
+void				*replace(size_t size, t_block *tmp)
+{
+	void		*tmp_ptr;
+	t_block		*out;
+
+	if (!(tmp_ptr = malloc(size)))
+		return (NULL);
+	out = ft_memcpy(tmp_ptr, tmp->ptr,
+		size > tmp->size ? tmp->size : size);
+	free(tmp->ptr);
+	return (out);
+}
+
 static void			*check_list(t_block **lst, void *ptr, size_t size)
 {
 	t_block		*tmp;
-	t_block		*out;
 
 	tmp = *lst;
 	while (tmp)
@@ -29,12 +41,7 @@ static void			*check_list(t_block **lst, void *ptr, size_t size)
 				return (ptr);
 			}
 			else
-			{
-				out = ft_memcpy(malloc(size), tmp->ptr,
-					size > tmp->size ? tmp->size : size);
-				free(tmp->ptr);
-				return (out);
-			}
+				return (replace(size, tmp));
 		}
 		tmp = tmp->next;
 	}

@@ -17,7 +17,6 @@ CY = \033[93m
 CE = \033[0m
 
 all: $(NAME)
-	@echo $(OBJS)
 
 $(NAME): $(OBJS)
 	@make -C ./lib/ft_printf all

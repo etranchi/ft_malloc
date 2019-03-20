@@ -20,10 +20,10 @@ t_block			*init_block(int block_size, int data_size)
 
 	i = 1;
 	j++;
-	while (i * SIZE < block_size + sizeof(t_block))
+	while ((size_t)(i * SIZE) < (size_t)(block_size + sizeof(t_block)))
 		i++;
-	b = (t_block *)mmap(0, i * SIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
-		MAP_ANON | MAP_PRIVATE, 0, 0);
+	b = (t_block *)mmap(0, (size_t)(i * SIZE),
+		PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANON | MAP_PRIVATE, 0, 0);
 	if (b == MAP_FAILED)
 		return (NULL);
 	b->ptr = (void *)b + sizeof(t_block);
@@ -102,7 +102,7 @@ void			*malloc(size_t size)
 		g_ctn.large = NULL;
 		first_time = 1;
 	}
-	if ((int)size <= 0)
+	if ((int)size < 0)
 		return (NULL);
 	if (size < TINY)
 		return (add_to(&(g_ctn).tiny, 100 * (TINY + sizeof(t_block)), size));

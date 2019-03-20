@@ -35,6 +35,7 @@ int				check_this_map(t_block **lst, t_block *prev_ref, t_block *tmp_b)
 	if (pre->next && prev_ref)
 		prev_ref->next = pre->next;
 	munmap(&(*lst), lst_size);
+	*lst = NULL;
 	return (1);
 }
 
@@ -61,11 +62,7 @@ static int		check_list(t_block **lst, void *ptr)
 			(void *)ref + ref->all_size + sizeof(t_block))
 			change_value(prev_ref, tmp_prev, ref, tmp);
 		if (tmp->ptr == ptr)
-			if (check_this_map(&ref, prev_ref, tmp))
-				if (ref == (*lst))
-					*lst = NULL;
-		if (tmp->ptr == ptr)
-			return (1);
+			return (check_this_map(&ref, prev_ref, tmp));
 		tmp_prev = tmp;
 		tmp = tmp->next;
 	}
